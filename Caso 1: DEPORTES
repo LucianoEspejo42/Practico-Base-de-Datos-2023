@@ -1,0 +1,23 @@
+/*1)- Nombre, edad y zona de todas las personas. */
+πNom, Edad, Zona PERS
+/*2)- Zonas donde viven las personas. */
+πZona PERS
+/*3)- Zonas donde hay clubes */
+π Zona CLUB
+/*4)- Todas las zonas. */
+π Zona PERS ∪ π Zona CLUB
+/*5)- Obtener un listado que incluya el nombre de los clubes que están ubicados en Capital, los que están en
+Desamparados y los que están en Rivadavia (deben incluirse las tres zonas). */
+πNomc(σ Zona = 'Capital' or Zona = 'Desamparados' or Zona = 'Rivadavia' CLUB)
+/*6)- Nombre, Cuil y edad de las personas que practican deportes */
+πNom, Dni, Edad (PERS ⨝ PRAC)
+/*7)- Cuil de las personas que practican tenis. */
+πDni (π Codd (σNomd = 'Tenis' DEPO) ⨝ PRAC)
+/*8)- Nombre de los clubes donde se practica fútbol */
+π Nomc((πCodd (σ Nomd = 'Fútbol' DEPO) ⨝ PRAC) ⨝ CLUB)
+/*9)- Para todas las personas que practican deportes: cuil y nombre de la persona, nombre del deporte y el nombre del
+club correspondiente.  */
+B = πDni,Nomd,Nomc (PRAC ⨝ DEPO ⨝ CLUB)
+π Nom, Nomd, Nomc (B ⨝ PERS)
+/*10)- 10. Cuil y nombre de las personas que practican (simultáneamente) los deportes D01, D22 y D10 (códigos).
+  */
