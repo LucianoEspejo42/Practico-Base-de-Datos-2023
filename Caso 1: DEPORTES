@@ -21,3 +21,12 @@ B = πDni,Nomd,Nomc (PRAC ⨝ DEPO ⨝ CLUB)
 π Nom, Nomd, Nomc (B ⨝ PERS)
 /*10)- 10. Cuil y nombre de las personas que practican (simultáneamente) los deportes D01, D22 y D10 (códigos).
   */
+  
+A = σCodd = 'D01' PRAC
+B = σCodd = 'D22' PRAC
+C = σCodd = 'D10' PRAC
+πDni, Nom ((A ∩ B ∩ C) ⨝ PERS)
+
+/*11)- 11. Cuil y nombre de las personas que no practican deportes en Ausonia. */
+
+π Dni PERS - π Dni PRAC
