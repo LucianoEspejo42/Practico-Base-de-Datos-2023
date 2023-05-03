@@ -27,6 +27,13 @@ B = σCodd = 'D22' PRAC
 C = σCodd = 'D10' PRAC
 πDni, Nom ((A ∩ B ∩ C) ⨝ PERS)
 
+OTRA FORMA DE HACERLO
+
+A = pi Dni ((σCodd = 'D01' PRAC) ⨝ DEPO)
+B = pi Dni ((σCodd = 'D22' PRAC) ⨝ DEPO)
+C = pi Dni ((σCodd = 'D10' PRAC) ⨝ DEPO)
+pi Dni, Nom ((A ∩ B ∩ C) ⨝ PERS) 
+
 /*11)- 11. Cuil y nombre de las personas que no practican deportes en Ausonia. */
 
 A = pi Dni,Codc ((σNomc = 'Ausonia' CLUB) ⨝ PRAC)
