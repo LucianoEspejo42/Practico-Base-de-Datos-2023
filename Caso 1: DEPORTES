@@ -29,7 +29,8 @@ C = σCodd = 'D10' PRAC
 
 /*11)- 11. Cuil y nombre de las personas que no practican deportes en Ausonia. */
 
-π Dni PERS - π Dni PRAC
+A = pi Dni,Codc ((σNomc = 'Ausonia' CLUB) ⨝ PRAC)
+pi Dni,Nom((pi Dni,Codc PRAC - A) ⨝ PERS)
 
 /*12)- Cuil de las personas que practican deportes en Ausonia o bien practican en la UVT. */
 
