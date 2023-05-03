@@ -43,6 +43,27 @@ pi Dni,Nom((pi Dni,Codc PRAC - A) ⨝ PERS)
 
 πDni (π Codc (σ Nomc = 'Ausonia' or Nomc = 'UVT' CLUB) ⨝ PRAC)
 
+/*13)- Código de los deportes que son practicados solamente por hombres. */
+
+A = π Dni (σSexo = 'F' PERS) 
+B = π Dni PRAC
+pi Codd ((B - A) ⨝ PRAC) 
+
+/*14)- 14. Cuil, nombre y dirección de las personas que viven en la misma zona que Juan Pérez, CUIL 20.498.425. */
+
+B = ρB πNom,Dni,Zona (σ Dni = 20498425 PERS)
+πPERS.Dni,PERS.Nom,PERS.Dir(B ⨝B.Dni ≠ PERS.Dni and B.Zona = PERS.Zona PERS)
+
+/*15)- Cuil y nombre de las personas mayores que Ana García (CUIL: 18.498.425). */
+
+A = ρA pi Dni, Edad,Nom (σ Dni = 18498425 PERS)
+pi PERS.Dni,PERS.Nom (A ⨝A.Nom ≠ PERS.Nom and A.Dni ≠ PERS.Dni and A.Edad < PERS.Edad PERS) 
+
+/*16)- Cuil y nombre de las personas que practican en clubes que están ubicados en la misma zona en la que ellos viven. */
+
+A = rho A πDni,Nom,Zona,Codc (PERS ⨝ PRAC)
+pi Dni, Nom(A ⨝ A.Zona = CLUB.Zona and A.Codc = CLUB.Codc CLUB)
+
 
 
 
