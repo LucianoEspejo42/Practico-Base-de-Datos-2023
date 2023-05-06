@@ -43,3 +43,43 @@ DICTA
 πCorreo (σNom = 'Python I' DICTA) ⨝ PERS
 
 /* 10. Listado de docentes (correo y nombre) que dictan el curso “Python I” y/o “Python II”. */
+
+A = σNom = 'Python I' DICTA
+B = σNom = 'Python II' DICTA
+πCorreo,Nom(πCorreo (A union B) ⨝ PERS) 
+
+/* 11. Docentes (todos los datos) que dictan los cursos “Python I” y “Python II”. */
+
+A = σNom = 'Python I' DICTA
+B = σNom = 'Python II' DICTA
+A ∩ B
+
+/* 12. Docentes (todos los datos) que cursaron algún curso de verano. */
+-- No lo entiendo xd
+DICTA
+INSC
+
+/* 13. Alumnos (todos los datos) que se inscribieron en el curso “Kotlin I”. */
+
+A = σNom = 'Kotlin I' INSC
+(πCorreo A) ⨝ PERS
+
+/* 14. Alumnos (todos los datos) que se inscribieron en el curso “Kotlin II”. */
+
+A = σNom = 'Kotlin II' INSC
+(πCorreo A) ⨝ PERS
+
+/* 15. Listado de alumnos (correo) que se inscribieron tanto en el curso “Kotlin I” como “Kotlin II”. */
+
+A = pi Correo(σNom = 'Kotlin I' INSC)
+B = pi Correo(σNom = 'Kotlin II' INSC)
+A ∩ B
+
+/* 16. Alumnos (todos los datos) que aprobaron el curso “Python I” (se aprueba con nota mayor o igual a 7). */
+
+(πCorreo (σ Nom = 'Python I' and Nota ≥ 7 INSC)) ⨝ PERS
+
+/* 17. Alumnos (todos los datos) que aprobaron el curso “Python II” (se aprueba con nota mayor o igual a 7). */
+
+(πCorreo (σ Nom = 'Python II' and Nota ≥ 7 INSC)) ⨝ PERS
+
