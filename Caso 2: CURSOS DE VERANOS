@@ -1,1 +1,35 @@
+/* 1. Correo y nombre de todas las personas. */
 
+πCorreo, Nom PERS
+
+/* 2. Nombre de los cursos */
+
+πNom CURSO 
+
+/* 3. Cursos (todos los datos) cuya carga horaria sea superior a las 40 horas reloj. */
+
+σ Ch > 40 CURSO
+
+/* 4. Cursos (todos los datos) cuya carga horaria se encuentre entre 40 y 45 horas reloj. */
+
+A = σ Ch ≥ 40 CURSO
+B = σ Ch ≤ 45 CURSO
+A intersect B
+
+/* 5. Listado de los cursos (nombre renombrar como nombre_curso) junto a los temas que se imparten. */
+
+A = rho nombre_curso ← Nom CURSO
+A ⨝ TEMAS
+
+/* 6. Docentes (correo y nombre) que dictan cursos. */
+
+pi Correo (pi Correo (rho Correo ← Correod INSC))
+
+A = pi Nom,Correod INSC
+πCorreo,Nom(pi Correo((rho Correo ← Correod A) ⨝ DICTA) ⨝ PERS)
+
+πCorreo,Nom(πCorreo DICTA ⨝ PERS)
+
+/* 7. Temas que se incluyen en todos los cursos. */
+
+TEMAS
