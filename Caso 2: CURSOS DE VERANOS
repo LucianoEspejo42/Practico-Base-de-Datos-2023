@@ -83,3 +83,20 @@ A ∩ B
 
 (πCorreo (σ Nom = 'Python II' and Nota ≥ 7 INSC)) ⨝ PERS
 
+/* 18. Alumnos (todos los datos) que aprobaron el curso “Python I” y “Python II” */
+
+A = πCorreo (σNom = 'Python I' and Nota ≥ 7 INSC)
+B = πCorreo (σNom = 'Python II' and Nota ≥ 7 INSC)
+(A ∩ B) natural join PERS
+
+/* 19. Alumnos (Correo) que se inscribieron en más de un curso de verano. */
+
+A = rho A INSC
+π A.Correo (σA.Correo = INSC.Correo and A.Nom ≠ INSC.Nom (A x INSC))
+
+/* 20. Docentes (todos los datos) que dictan más de un curso cuya carga horaria sea inferior a 30 horas reloj. */
+
+A = (pi Nom (σ Ch < 30 CURSO)) ⨝ DICTA
+(πCorreo A) ⨝ PERS
+
+
