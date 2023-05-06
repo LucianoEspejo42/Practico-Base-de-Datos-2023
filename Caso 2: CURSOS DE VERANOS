@@ -99,4 +99,17 @@ A = rho A INSC
 A = (pi Nom (σ Ch < 30 CURSO)) ⨝ DICTA
 (πCorreo A) ⨝ PERS
 
+/* 21. Pares de alumnos (correo) que cursaron los mismos cursos. */
 
+A = rho A INSC
+πA.Correo(σA.Correo ≠ INSC.Correo and A.Nom = INSC.Nom (A x INSC))
+
+/* 22. Pares de alumnos (todos los datos) que cursaron los mismos cursos. */
+
+A = rho A INSC
+πA.Correo(σA.Correo ≠ INSC.Correo and A.Nom = INSC.Nom (A x INSC)) ⨝ PERS
+
+/* 23. Pares de alumnos que cursaron los mismos cursos con distinto profesor. */
+
+A = rho A INSC
+σA.Correo ≠ INSC.Correo and A.Nom = INSC.Nom and A.Correod ≠ INSC.Correod (A x INSC)
