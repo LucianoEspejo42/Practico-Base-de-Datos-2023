@@ -33,3 +33,13 @@ A = pi Nom,Correod INSC
 /* 7. Temas que se incluyen en todos los cursos. */
 
 TEMAS
+
+/* 8. Listado de los cursos (nombre) junto a los datos del docente que los dicta. */
+ 
+DICTA
+
+/* 9. Docentes (todos los datos) que dictan los cursos “Python I”. */
+
+πCorreo (σNom = 'Python I' DICTA) ⨝ PERS
+
+/* 10. Listado de docentes (correo y nombre) que dictan el curso “Python I” y/o “Python II”. */
