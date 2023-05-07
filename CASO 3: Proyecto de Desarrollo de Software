@@ -1,1 +1,11 @@
+/* 1. Programadores (todos sus datos) que han participado en el proyecto código ‘P22-11’ con más de 10 horas. */
 
+-- Cuales son "todos sus datos"?
+pi dni (σrol = 'programador' and codp = 'P22-11' and cantHoras > 10 TRAB) ⨝ EMPLEADOS
+
+/* 2. Personas (todos sus datos) que han trabajado como analistas y diseñadores en el año 2023, independientemente sea en el mismo proyecto o no. */
+
+A = πdni(σrol = 'analista' and date('2022-12-31') < fDesde  TRAB)
+B = πdni(σrol = 'diseñador' and date('2022-12-31') < fDesde  TRAB)
+A ∩ B
+-- No entiendo si es uniòn o interseccion, aparte no se si proyectar las 4 claves primarias xd
