@@ -61,6 +61,11 @@ A ∩ B
 A = rho Correod ← Correo PERS
 pi Correod INSC natural join A
 
+*VER ESTE EJERCICIO*
+
+A = PERS natural join (pi Correo DICTA)
+(pi Correo((pi Correo A)natural join INSC)) natural join PERS)
+
 /* 13. Alumnos (todos los datos) que se inscribieron en el curso “Kotlin I”. */
 
 A = σNom = 'Kotlin I' INSC
