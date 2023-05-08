@@ -48,6 +48,8 @@ A = σNom = 'Python I' DICTA
 B = σNom = 'Python II' DICTA
 πCorreo,Nom(πCorreo (A union B) ⨝ PERS) 
 
+pi Correo(σ Nom = 'Python I' or Nom = 'Python II' DICTA) ⨝ PERS
+
 /* 11. Docentes (todos los datos) que dictan los cursos “Python I” y “Python II”. */
 
 A = σNom = 'Python I' DICTA
