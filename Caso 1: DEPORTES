@@ -64,6 +64,30 @@ pi PERS.Dni,PERS.Nom (A ⨝A.Nom ≠ PERS.Nom and A.Dni ≠ PERS.Dni and A.Edad 
 A = rho A πDni,Nom,Zona,Codc (PERS ⨝ PRAC)
 pi Dni, Nom(A ⨝ A.Zona = CLUB.Zona and A.Codc = CLUB.Codc CLUB)
 
+/* 17. Nombre de todas las personas junto al nombre del deporte que practica. Se deben incluir todas las personas
+registradas más allá que no estén practicando algún deporte. */
+
+π Nom,Nomd (PERS ⟕ (PRAC ⨝ DEPO))
+
+/* 18. Nombre de los deportes practicados en todos los clubes. */
+
+A = pi Codc CLUB
+pi Nomd((πCodd,Codc PRAC ÷ A) ⨝ DEPO)
+
+/* 19. Clubes (Codc) en los que se practican todos los deportes de balón (clase). */
+
+A = pi Codd (sigma Clase = 'Balón' DEPO)
+πCodc,Codd PRAC ÷ A
+
+/* 20. Personas (todos sus datos personales) que practican todos los deportes. */
+
+A = pi Codd DEPO
+(pi Dni,Codd PRAC ÷ A) ⨝ PERS
+
+/* 21. Nombre de las personas que practican todos los deportes que se practican en el Banco Hispano. */
+
+A = pi Codd(pi Codc(sigma Nomc = 'Banco Hispano' CLUB) ⨝ PRAC)
+(pi Dni, Codd PRAC ÷ A) ⨝ PERS
 
 
 
