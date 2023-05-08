@@ -98,6 +98,8 @@ A = rho A INSC
 
 /* 20. Docentes (todos los datos) que dictan más de un curso cuya carga horaria sea inferior a 30 horas reloj. */
 
+ESTE EJERCICIO ES UN PRODUCTO CARTECIANO 
+
 A = (pi Nom (σ Ch < 30 CURSO)) ⨝ DICTA
 (πCorreo A) ⨝ PERS
 
