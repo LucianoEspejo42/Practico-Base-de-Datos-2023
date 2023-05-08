@@ -32,11 +32,11 @@ A = pi Nom,Correod INSC
 
 /* 7. Temas que se incluyen en todos los cursos. */
 
-TEMAS
+(πTema,Nom TEMAS) ÷ (πNom (INSC ⨝ CURSO))
 
 /* 8. Listado de los cursos (nombre) junto a los datos del docente que los dicta. */
  
-DICTA
+DICTA ⨝ πCorreo PERS
 
 /* 9. Docentes (todos los datos) que dictan los cursos “Python I”. */
 
@@ -57,9 +57,9 @@ B = σNom = 'Python II' DICTA
 A ∩ B
 
 /* 12. Docentes (todos los datos) que cursaron algún curso de verano. */
--- No lo entiendo xd
-DICTA
-INSC
+
+A = rho Correod ← Correo PERS
+pi Correod INSC natural join A
 
 /* 13. Alumnos (todos los datos) que se inscribieron en el curso “Kotlin I”. */
 
