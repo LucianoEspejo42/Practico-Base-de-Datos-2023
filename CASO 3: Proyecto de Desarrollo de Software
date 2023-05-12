@@ -9,3 +9,22 @@ A = πdni(σrol = 'analista' and date('2022-12-31') < fDesde  TRAB)
 B = πdni(σrol = 'diseñador' and date('2022-12-31') < fDesde  TRAB)
 A ∩ B
 -- No entiendo si es uniòn o interseccion, aparte no se si proyectar las 4 claves primarias xd
+/* 3. Personas (todos sus datos) que siempre han participado como líderes de proyectos. */
+
+-- RESTA 
+
+/* 4. Personas (cuil) que han participado en todos los proyectos desarrollados para ‘OSSE’ (cliente). */
+
+A = πcodp σ cliente = 'OSSE' PROYECTOS
+pi cuil,codp TRAB ÷ A 
+
+/* 5. Personas (cuil) que han participado con roles diferentes en el mismo proyecto (no considerar los líderes). */
+
+A =rho A pi cuil,codp,rol (TRAB )
+pi A.cuil(A ⨝A.rol != TRAB.rol and A.codp = TRAB.codp and A.cuil = TRAB.cuil TRAB)
+
+/* 6. Personas (cuil) que han participado con roles diferentes en el mismo proyecto (considerar los líderes). */
+
+A =rho A pi cuil,codp,rol (TRAB )
+B = pi A.cuil(A ⨝A.rol != TRAB.rol and A.codp = TRAB.codp and A.cuil = TRAB.cuil TRAB)
+B union πlider PROYECTOS
