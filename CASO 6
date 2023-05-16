@@ -1,0 +1,48 @@
+/* 2. Alumnos (nombre) que han rendido (aprobado) Bases de Datos y Bases de Datos Avanzadas. */
+
+A = π codM (σnomM = 'Base de Datos' mat) ⨝ exa
+B = π codM (σnomM = 'Base de Datos Avanzadas' mat) ⨝ exa
+πdni (σ nota ≥ 4 A) ∩ πdni (σ nota ≥ 4 B)
+
+/* 3. Materias (todos los datos) que tienen algún inscripto en el 2023. */
+πcodM(σ year(fecha) = 2018 insc) ⨝ mat
+
+/* 4. Exámenes (nombre del alumno, nombre de la materia, fecha y nota) rendidos en forma regular. */
+
+/* 5. Alumnos (Cuil y nombre) que han sacado boleta de todas las materias de primer y segundo año. */
+
+A = πcodM(σanio = 1 or anio = 2 mat)
+π dni, nomAlu ((π dni,codM bol ÷ A) ⨝ alu)
+
+/* 6. Alumnos (Cuil y nombre) que están inscriptos en materias de distintos años. */
+
+insc⨝mat
+
+/* 7. Alumnos que han rendido más de una vez la misma materia. */
+
+A = rho A exa 
+π exa.dni(A ⨝(A.codM = exa.codM and A.dni = exa.dni and A.fecha != exa.fecha) exa)
+-- Otra forma es con el producto carteciano 
+π A.dni(σA.dni = exa.dni and A.codM = exa.codM and A.fecha != exa.fecha (A x exa))
+
+/* 8. Nombre de materias y sus correlativas (nombre también). */
+
+A = (mat ⨝ corre) ⨝ mat
+π nomM, codMc (A)
+
+/* 9. Alumnos (todos sus datos personales) que están en condiciones de rendir Bases de Datos; es decir, tener rendidas
+sus correlativas además de haber obtenido la boleta */
+
+-- Codigo de la materia "Base de Datos"
+A = π codM (σnomM = 'Base de Datos' mat)
+-- Codigo de la materia correlativa
+B = π codMc (A ⨝ corre)
+C = ρ codM ← codMc B 
+D = σ nota ≥ 4 (exa ⨝ C)
+πdni (πdni,codM bol ∩ πdni, codM D) ⨝ alu
+
+/* 10. Exámenes libres (Cuil, codM, fecha, nota), es decir, se han rendido sin haber sacado la boleta correspondiente. */
+
+(πdni,codM exa - πdni,codM bol) ⨝ exa
+
+/* 11. Alumnos (nombre) que están al día; es decir, han rendido todas las materias para las que tienen boleta. */
