@@ -1,0 +1,44 @@
+/* 1. Personas (nombre) que han actuado en más de una película.*/
+
+Actua ÷ πtitulo Pelicula
+
+/* 2. Actores (todos los datos) que también son directores. */
+
+π nom (Actua ∩ Dirige) ⨝ Persona
+
+/* 3. Actores (todos los datos) que no son directores. */
+
+/* 4. Personas (todos los datos) que han actuado en todas las películas dirigidas por Carrie-Anne Moss. */
+
+A = πtitulo (σ nom = 'Carrie-Anne Moss' Dirige)
+(Actua ÷ A) ⨝ Persona
+
+/* 5. Obtener el título y fecha de estreno de las películas dirigidas por Keanu Reeves */
+
+πtitulo,estreno ((σnom = 'Keanu Reeves' Dirige) ⨝ Pelicula)
+
+/* 6. Personas (nombre) que han actuado en todas las películas en las que actuó Keanu Reeves. */
+
+A = πtitulo (σ nom = 'Keanu Reeves' Actua)
+Actua ÷ A
+
+/* 8. Personas (nombre) que han actuado en las películas The Matrix y The Matrix Revolutions.*/
+
+A = πnom (σtitulo = 'The Matrix' Actua)
+B = πnom (σtitulo = 'The Matrix Revolutions' Actua)
+(A ∩ B)
+
+/* 9. Personas (nombre) que únicamente han actuado en la película The Matrix Revolutions. */
+
+A = σtitulo != 'The Matrix Revolutions' Actua
+πnom (Actua - A)
+
+/* 10. Personas (nombre) que son seguidores. */
+
+
+/* 11. Personas (nombre) que son seguidores de George Martin y de Keanu Reeves. */
+
+/* 7. Personas (todos los datos) que han actuado y/o dirigido en las mismas películas en las que actuó Keanu Reeves. */
+
+AK= ρAK πtitulo (σ nom='Keanu Reeves' Actua)
+(((σ nom≠'Keanu Reeves' Actua) ∪ (σ nom≠'Keanu Reeves' Dirige))÷(AK)) ⨝ Persona
