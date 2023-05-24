@@ -1,1 +1,11 @@
+ACTUALIZACIÓN:
+ -- Modifique la carga horaria del curso Ruby con el valor 60
 
+update curso
+set ch = 60 
+where nom = 'Ruby'
+
+ 
+ 
+ 
+ 
