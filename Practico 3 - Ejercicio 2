@@ -5,7 +5,7 @@ update curso
 set ch = 60 
 where nom = 'Ruby'
 
+ 6. Elimine el curso Ruby
  
- 
- 
+ No se puede realizar porque al tratar de eliminar el curso 'Ruby' 
  
