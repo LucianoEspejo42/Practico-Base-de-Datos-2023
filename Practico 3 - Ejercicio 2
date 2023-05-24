@@ -9,3 +9,175 @@ where nom = 'Ruby'
  
  No se puede realizar porque al tratar de eliminar el curso 'Ruby' 
  
+ COSULTAS 
+ 
+ -- 1) Correo y nombre de todas las personas
+
+select correo, nombre
+from persona 
+
+-- 2) Nombre de los cursos.
+
+select nom 
+from curso
+
+-- 3) Nombre del curso que tiene una carga horaria superior a la de todos los cursos que dicta
+-- “pedroibañez@yahoo.com.ar”.
+select nom
+from curso
+where ch > (
+	select max(ch)
+	from curso natural join dicta
+	where correo = 'pedroibañez@yahoo.com.ar');
+
+-- 4)Datos (todos) de las personas (docentes o alumnos) que poseen como nombre Rosa (solamente o alguno de
+-- ellos). 
+
+select *
+from persona 
+where nombre like '%Rosa%'
+
+-- 5) Nombres de los cursos que tienen una carga horaria superior a la del curso “Kotlin I”.
+
+select nom
+from curso
+where ch > (
+	select ch
+	from curso 
+	where nom = 'Kotlin I');
+
+-- 6) Cursos (todos los datos) cuya carga horaria sea superior a las 40 horas reloj.
+
+SELECT *
+FROM curso
+where ch > 40
+
+-- 7) Cursos (todos los datos) cuya carga horaria se encuentre entre 40 y 45 horas reloj.
+
+select *
+from curso
+where ch > 40 and ch < 45
+
+-- 8) Cursos (nombre renombrar como nombre curso) junto a los temas que se imparten.
+
+select nom as nombre_curso, tema
+from curso natural join tema
+
+-- 9) Docentes (correo y nombre) que dictan cursos.
+
+select distinct correo, nombre
+from persona natural join dicta
+
+-- 10) Cursos (nombre) junto a los datos del docente que los dicta.
+
+select *
+from dicta natural join persona natural join curso
+
+-- 11) Cursos (todos los datos) junto a los datos de los alumnos inscriptos en ellos. Se deben incluir todos los cursos
+-- registrados más allá que no tengan alumnos inscriptos
+
+select *
+from curso left join inscripcion on curso.nom = inscripcion.nom
+
+-- 12)  Docentes (todos los datos) que dictan los cursos “Python I”.
+
+select *
+from dicta natural join persona
+where nom = 'Python I'
+
+-- 13) Docentes (todos los datos) que dictan los cursos “Python II”.
+
+select *
+from dicta natural join persona
+where nom = 'Python II'
+
+-- 14) Docentes (correo y nombre) que dictan el curso “Python I” y/o “Python II”.
+
+(select *
+from dicta natural join persona
+where nom = 'Python I') Union (select *
+from dicta natural join persona
+where nom = 'Python II')
+
+--  Es LO MISMO 
+
+select correo, nombre
+from dicta natural join persona
+where nom = 'Python II' or nom = 'Python I'
+
+-- 15) Docentes (correo) que dictan los cursos “Python I” y “Python II”
+
+(select correo
+from dicta natural join persona
+where nom = 'Python I') intersect (select correo
+from dicta natural join persona
+where nom = 'Python II')
+
+-- 16) Docentes (todos los datos) que cursaron algún curso de verano
+
+select *
+from (select correo
+from (select distinct correod as correo
+from inscripcion) L natural join inscripcion) B natural join persona
+
+-- 17) Alumnos (todos los datos) que se inscribieron en el curso “Kotlin I”
+
+select *
+from (select correo
+	from inscripcion
+	where nom = 'Kotlin I')F natural join persona
+	
+-- 18)  Alumnos (todos los datos) que se inscribieron en el curso “Kotlin II”
+
+select *
+from (select correo
+	from inscripcion
+	where nom = 'Kotlin II')F natural join persona
+
+-- 19) Alumnos (correo) que se inscribieron tanto en el curso “Kotlin I” como “Kotlin II”.
+
+(select correo
+from inscripcion
+where nom = 'Kotlin I') intersect (select correo
+									from inscripcion
+									where nom = 'Kotlin II')
+
+-- 20) Alumnos (todos los datos) que aprobaron el curso “Python I” y “Python II”
+
+select *
+from ((select correo
+	from inscripcion
+	where nom = 'Python I' and nota > 6) 
+
+	intersect 
+
+	(select correo
+	from inscripcion
+	where nom = 'Python II' and nota > 7))M natural join persona
+
+-- 21) Alumnos (Correo) que se inscribieron en más de un curso de verano
+
+select correo 
+from inscripcion
+group by correo
+having count(correo) > 1
+
+-- 22) Docentes (todos los datos) que dictan más de un curso cuya carga horaria sea inferior a 30 horas reloj.
+
+select * 
+from	(select correo
+		from dicta natural join curso
+		where ch < 30
+		group by correo
+		having count(correo) > 1)A natural join persona
+
+
+
+
+
+
+
+
+
+
+ 
