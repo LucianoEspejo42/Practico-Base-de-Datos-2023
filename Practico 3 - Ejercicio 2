@@ -234,6 +234,25 @@ where ch = (select max(ch)
 		   from curso)
 
 
+------------- TABLAS VIRTUALES/VISTAS -----------------------
+
+-- 28) Especifique la Vista “Cursoscortos” que tenga los siguientes atributos nombre, carga horaria. Los cursos
+-- cortos son aquellos cuya carga horaria es inferior a las 40 horas.
+
+create view Cursoscortos (nombre, cargahoraria)as 
+select nom, ch 
+from curso
+where ch < 40
+
+drop view Cursoscortos
+
+-- 29) Muestre los datos contenidos en la vista, ordenados según el nombre
+
+select *
+from Cursoscortos
+order by nombre desc
+
+-- 30) Inserte el curso “DBA PostgreSQL” con una carga horaria de 50 horas, a través de la vista.
 
 
 
