@@ -172,7 +172,59 @@ from	(select correo
 		having count(correo) > 1)A natural join persona
 
 
+-- 23) Alumnos (correo) que cursaron los mismos cursos.
 
+select distinct i1.correo
+from inscripcion i1 inner join inscripcion i2 on i1.correo != i2.correo and i1.nom = i2.nom
+
+-- 24) Alumnos que cursaron los mismos cursos con distinto profesor
+
+
+select distinct i1.correo
+from inscripcion i1 inner join inscripcion i2 on i1.correo != i2.correo and i1.nom = i2.nom and i1.correod != i2.correod
+
+-- 25) Alumnos (todos los datos) que se inscribieron en todos los cursos de verano.
+
+insert into inscripcion values ('anagarcia32@gmail.com','Kotlin I','pedroibañez@yahoo.com.ar', 10),
+							   ('anagarcia32@gmail.com', 'Kotlin II', 'pedroibañez@yahoo.com.ar',8),
+							   ('anagarcia32@gmail.com','Javascript I', 'pedroibañez@yahoo.com.ar', 7),
+							   ('anagarcia32@gmail.com', 'Javascript II', 'pedroibañez@yahoo.com.ar', 7),
+							   ('anagarcia32@gmail.com','Ruby', 'pedroibañez@yahoo.com.ar',9);
+
+select *
+from persona p
+where not exists (select *
+				 from curso c
+				 where not exists (select *
+								  from inscripcion i
+								  where c.nom = i.nom and i.correo = p.correo))
+								  
+-- 26) . Alumnos (todos los datos) que se inscribieron en todos los cursos que dicta el profesor con correo
+-- “pedroibañez@yahoo.com.ar” 
+
+select *
+from persona p
+where not exists (select *
+				 from curso c
+				 where not exists (select *
+								  from inscripcion i
+								  where p.correo = i.correo and i.correod = 'pedroibañez@yahoo.com.ar'))
+								  
+
+-- 27) Nombre del/los curso/s que tienen la mayor carga horaria.
+
+select nom
+from curso
+group by nom
+having ch = (select max(ch)
+			from curso)
+			
+-- OTRA MANERA 
+
+select nom
+from curso
+where ch = (select max(ch)
+		   from curso)
 
 
 
