@@ -79,6 +79,13 @@ from dicta natural join persona natural join curso
 select *
 from curso left join inscripcion on curso.nom = inscripcion.nom
 
+-- ESTA MANERA ESTA BIEN  👇
+
+select * from curso left join (
+    		select * from persona natural join inscripcion
+		) as p on curso.nom = p.nom;
+
+
 -- 12)  Docentes (todos los datos) que dictan los cursos “Python I”.
 
 select *
