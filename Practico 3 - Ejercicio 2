@@ -88,13 +88,13 @@ select * from curso left join (
 
 -- 12)  Docentes (todos los datos) que dictan los cursos “Python I”.
 
-select *
+select persona.*
 from dicta natural join persona
 where nom = 'Python I'
 
 -- 13) Docentes (todos los datos) que dictan los cursos “Python II”.
 
-select *
+select persona.*
 from dicta natural join persona
 where nom = 'Python II'
 
