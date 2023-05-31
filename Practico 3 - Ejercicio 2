@@ -301,7 +301,54 @@ from Alumnos_python2
 
 insert into Alumnos_python2 values ('orm@gmail.com','or','Orlando Martin')
 
+---------------- GESTIÓN DE USUARIO-----------------
 
+-- 38) Cree un usuario (alumno) con contraseña “alumno1”.
+
+create user alumno password 'alumno1'
+
+drop user alumnoLuciano
+
+-- 39) Cambie su contraseña, por “alumno”
+
+alter user alumno with password 'alumno'
+
+-- 40) Concédale el permiso de SELECT e INSERT sobre la tabla CURSO. 
+
+grant select on curso to alumno;
+grant insert on curso to alumno;
+
+-- 41) Visualice los permisos del usuario “alumno”: SELECT table_name, privilege_type FROM
+-- information_schema.table_privileges WHERE grantee = 'alumno'
+
+SELECT table_name, privilege_type
+FROM information_schema.table_privileges
+WHERE grantee = 'alumno';
+
+----------------------------------------- ESTO DE AQUI SE HACE EN EL USUARIO (ALUMNO) ---------------------------------------------------
+-- 42) Accediendo con ese usuario (debe generar una nueva instancia que referencie al mismo servidor, pero con				|
+-- el usuario “alumno”), ejecute un SELECT sobre la tabla CURSO y luego, sobre la tabla DICTA. Analice las				|
+-- respuestas																|
+																	|
+select *																|
+from curso																|
+																	|
+select *																|
+from dicta																|
+																	|
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-- 43) Elimine el permiso SELECT sobre la tabla DICTA.
+
+revoke select 
+on curso
+from alumno
+
+-- 44) Visualice nuevamente los permisos del usuario “alumno”.
+
+SELECT table_name, privilege_type
+FROM information_schema.table_privileges
+WHERE grantee = 'alumno';
 
 
  
