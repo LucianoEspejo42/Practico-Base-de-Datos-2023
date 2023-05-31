@@ -254,6 +254,52 @@ order by nombre desc
 
 -- 30) Inserte el curso “DBA PostgreSQL” con una carga horaria de 50 horas, a través de la vista.
 
+insert into Cursoscortos values ('DBA PostgreSQL',50)
+
+-- 31) Elimine la vista, y vuelva a crearla pero agregando la especificación “WITH CHECK OPTION ”
+
+drop view Cursoscortos
+
+create view Cursoscortos_v2 (nombre, carga_horaria) as
+select *
+from curso
+where ch < 40
+WITH CHECK OPTION;
+
+-- 32) Inserte el curso “DBA Oracle” con una carga horaria de 55 horas, a través de la vista.
+
+insert into Cursoscortos_v2 values ('DBA Oracle',55)
+
+-- 33) Especifique la Vista “Alumnos_python1” que tenga los siguientes atributos correo, nombre de usuario,
+-- nombre y representan a los alumnos que se inscribieron en el curso “PYTHON I”.
+
+create view Alumnos_python1 (correo, nom_usuario, nombre) as
+select persona.*
+from persona natural join inscripcion
+where nom = 'Python I'
+
+-- 34) Muestre los datos contenidos en la vista creada en el punto anterior, cuyo correo sea una cuenta de Gmail.
+
+select *
+from Alumnos_python1
+where correo like '%gmail%'
+
+-- 35) Especifique la Vista “Alumnos_python2” que tenga los siguientes atributos nombre de usuario, nombre y
+-- representan a los alumnos que se inscribieron en el curso “PYTHON II”
+
+create view Alumnos_python2 (nom_usuario, nombre) as
+select nomu, nombre
+from persona natural join inscripcion
+where nom = 'Python II'
+
+-- 36) Muestre los datos contenidos en la vista
+
+select *
+from Alumnos_python2
+
+-- 37)  Inserte un nuevo alumno con los siguientes datos: < orm@gmail.com, or, Orlando Martin >
+
+insert into Alumnos_python2 values ('orm@gmail.com','or','Orlando Martin')
 
 
 
