@@ -351,4 +351,36 @@ FROM information_schema.table_privileges
 WHERE grantee = 'alumno';
 
 
+---------------- CONSULTAS DE CATALOGOS -----------------
+
+-- 45) Muestre los datos de las bases de datos creadas (tabla pg_database del catálogo)
+
+select *
+from pg_database
+
+-- 46) Muestre las tablas de la base de datos actual.
+
+select table_name
+from information_schema.tables 
+where table_schema = 'public'  -- and table_type = 'BASE TABLE'
+
+select *
+from pg_catalog.pg_tables;
+
+-- 47) Muestre las columnas e índices de una tabla
+
+select table_name 
+from information_schema.table
+where 
+
+-- 48) Muestra los usuarios conectados
+
+select usename, client_addr
+from pg_stat_activity;
+
+-- 49) Muestre el tamaño que ocupa la tabla DICTA.
+
+select pg_size_pretty (pg_total_relation_size('dicta'))
+
+
  
