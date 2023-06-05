@@ -108,3 +108,16 @@ except
 (select first_name, last_name
 from employees e natural join departments d
 where e.employee_id != d.manager_id )
+
+-- 15)_ Especifique la Vista EmpFinan que contenga todos los empleados del departamento 100 con los atributos
+-- first_name como nombre, last_name como apellido y department_name como nom_dpto.
+
+create view EmpFinan (nombre, apellido, nom_dpto) as
+select first_name, last_name, department_name
+from employees e natural join departments
+where e.department_id = 100
+
+-- 16) Realice una consulta que muestre la vista completa.
+
+select *
+from EmpFinan
