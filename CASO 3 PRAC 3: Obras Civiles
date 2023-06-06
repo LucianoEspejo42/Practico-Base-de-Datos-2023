@@ -75,3 +75,25 @@ from obras natural join (select co
 						select co
 						from ferreterias natural join pedidos
 						where nom != 'MR S.A') A
+
+-- 12) Muestre el nombre de los materiales que han sido pedidos para todas las obras realizadas.
+
+select descrip
+from materiales m
+where not exists (select *
+				 from pedidos p
+				 where not exists (select *
+								   from obras o
+								   where o.co = p.co and m.cm != p.co
+								  ))
+								  
+-- 13) Actualice el teléfono de la Ferretería San Ignacio por el número 4312548.
+
+update ferreterias
+set tel = 4312548
+where nom = 'Ferreteria San Ignacio'
+
+-- 14) Elimine el Material con descripción Cemento Avellaneda.
+
+delete from materiales 
+where descrip = 'Cemento Avellaneda'
