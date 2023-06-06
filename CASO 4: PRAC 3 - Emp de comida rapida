@@ -1,0 +1,69 @@
+-- 1) Sucursales (todos los datos) que vendieron todos los productos que se comercializan en San Luis.
+
+select *
+from sucursal s
+where not exists (select *
+				 from producto p natural join (select num from sucursal where provincia= 'San Luis')A
+				 where not exists (select *
+								  from detalle d
+								  where d.cod = p.cod and s.num = d.num))
+								  
+								  
+-- 2) Provincias donde se venden más de un producto
+
+select provincia 
+from sucursal natural join producto
+group by provincia
+having count(provincia) > 1
+
+-- 3) Sucursales (todos los datos) que venden tanto Pizza napolitana como Pizza napolitana especial.
+
+select *
+from sucursal natural join (select num
+						   from producto
+						   where nombre = 'Pizza napolitana'
+						   
+						   intersect
+						   
+						   select num
+						   from producto
+						   where nombre = 'Pizza napolitana especial') A
+						   
+-- 4) Productos (nombre y stock) comercializados en las provincias de Cuyo 
+-- (San Juan, Mendoza y San Luis).
+
+select nombre, sum(stock)
+from producto natural join sucursal
+where provincia = 'San Juan' or provincia = 'San Luis' or provincia = 'Mendoza'
+group by nombre
+
+-- 5) Provincias que no venden Pizza muzzarella.
+
+(select provincia
+from sucursal)
+
+except
+
+(select provincia
+from sucursal natural join producto p
+where p.nombre = 'Pizza muzzarella')
+
+-- 6) Sucursales (número y dirección) que no venden el producto ‘Pizza con jamón’
+
+select num, direcc
+from sucursal natural join (select num
+						   from sucursal
+						   except
+						   select num
+						   from producto
+						   where nombre = 'Pizza con jamón') A
+						   
+-- 7) Nombre de productos vendidos por todas las sucursales de San Juan.
+
+select distinct nombre
+from producto p
+where not exists (select *
+				 from sucursal as s
+				 where provincia = 'San Juan' and not exists (select *
+															  from detalle d
+															  where s.num = d.num and p.cod = d.cod))
