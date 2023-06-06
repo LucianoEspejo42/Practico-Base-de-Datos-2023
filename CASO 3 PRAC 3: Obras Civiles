@@ -97,3 +97,58 @@ where nom = 'Ferreteria San Ignacio'
 
 delete from materiales 
 where descrip = 'Cemento Avellaneda'
+
+-- 12) Muestre el nombre de los materiales que han sido pedidos para todas las obras realizadas.
+
+select descrip
+from materiales m
+where not exists (select *
+				 from pedidos p
+				 where not exists (select *
+								   from obras o
+								   where o.co = p.co and m.cm != p.co
+								  ))
+								  
+-- 13) Actualice el teléfono de la Ferretería San Ignacio por el número 4312548.
+
+update ferreterias
+set tel = 4312548
+where nom = 'Ferreteria San Ignacio'
+
+-- 14) Elimine el Material con descripción Cemento Avellaneda.
+
+delete from materiales 
+where descrip = 'Cemento Avellaneda'
+
+-- 15) Especifique la Vista “ObrasCuyoNorte” que contenga Co (código de la obra), Direc 
+--(dirección de la obra) y EmpCon (empresa constructora) de las obras ubicadas en la zona Cuyo Norte.
+
+create view ObrasCuyoNorte (codigo_obra, direc_obra, emp_constructora) as
+select co, direc, empcon
+from obras
+where zona = 'Rawson'
+
+-- 16) Especifique la Vista “ObrasMat” que contenga Obra (código de la obra), 
+-- Empresa (empresa constructora), Material (descripción del material) y 
+-- CantMat (cantidad de materiales pedidos)
+
+create view ObrasMat (codigo_obra, emp_const, descrip_material, cant_materiales) as
+select co, empcon, materiales.descrip, cant
+from (select co, empcon from obras) A natural join pedidos natural join materiales
+						  
+select *
+from ObrasMat
+
+drop view ObrasMat
+
+-- 16.1) Muestre los datos contenidos en la vista, ordenados según obra (descendente) y material (ascendente).
+
+select *
+from ObrasMat
+order by codigo_obra desc, descrip_material
+
+-- 16.2) Actualice la cantidad de materiales pedidos de las obras incrementándolas en 100
+
+update ObrasMat
+set cant_materiales = cant_materiales + 100
+
