@@ -1,0 +1,30 @@
+------------ SCRIP BASE DE DATO ------------------
+create table Provincia(
+	Nombre_Provincia varchar(30) NOT NULL unique primary key );
+
+create table Localidad(
+	Nombre_localidad varchar(30) NOT NULL unique,
+	Nombre_Provincia varchar(30) NOT NULL unique ,
+	foreign key (Nombre_Provincia) references Provincia(Nombre_Provincia),
+	primary key (Nombre_localidad, Nombre_Provincia));
+	
+create table Persona (
+	cuil integer NOT NULL unique primary key,
+	nombre varchar(40) not NUll,
+	apellido varchar(40) not NULL,
+	calle varchar(40) not NULL,
+	numero_calle integer ,
+	orientacion varchar(15),
+	Nombre_localidad varchar(30),
+	Nombre_Provincia varchar(30), 
+	foreign key (Nombre_localidad, Nombre_Provincia) references Localidad(Nombre_localidad,Nombre_Provincia));
+	
+create table Chofer (
+	cuil integer NOT NULL unique primary key,
+	sueldo decimal(8,0) check (sueldo > 0),
+	antiguedad integer,
+	foreign key (cuil) references Persona(cuil))
+	
+create table Camion (
+	dominio varchar(30) NOT NULL unique primary key
+	)
