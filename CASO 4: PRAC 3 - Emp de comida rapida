@@ -67,3 +67,33 @@ where not exists (select *
 				 where provincia = 'San Juan' and not exists (select *
 															  from detalle d
 															  where s.num = d.num and p.cod = d.cod))
+
+
+-- 8) Para cada sucursal de la provincia de San Juan, obtener número e importe total facturado
+
+select num, sum(precio * cantidad) importe_total
+from sucursal natural join detalle
+where provincia = 'San Juan'
+group by num
+
+-- 9) Provincias donde se venden más de un producto.
+
+select provincia
+from sucursal natural join detalle
+group by provincia
+having count(cod) > 1
+
+-- 10) Provincia/s que más facturó durante el 2020
+
+alter table factura rename column num to numf 
+
+select provincia as provincia_que_mas_facturo
+from sucursal  natural join detalle
+group by provincia
+having sum(precio * cantidad) =	(select max(total)
+								 from	(select sum(precio * cantidad) total
+										 from detalle d natural join factura join sucursal s on s.num = d.num 
+										 where cast(fecha as varchar) like '%2020%' -- extract(year from fecha) = 2020
+										 group by provincia)aux)
+										 
+										 
