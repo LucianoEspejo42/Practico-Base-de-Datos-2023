@@ -26,5 +26,32 @@ create table Chofer (
 	foreign key (cuil) references Persona(cuil))
 	
 create table Camion (
-	dominio varchar(30) NOT NULL unique primary key
+	dominio varchar(30) NOT NULL unique primary key,
+	kilometro decimal(8,0), 
+	marca varchar(15), 
+	modelo varchar(15),
+	compañia_seguro varchar(20),
+	valor decimal(8,0) check (valor > 0)
 	)
+
+create table Viajes (
+	numero_viaje integer not NULL unique primary key,
+	kilometro_viaje decimal(8,0)
+)
+
+create table Paquete_Envio (
+	numero_envio integer not NULL unique primary key,
+	Dni_destinatario integer, 
+	valor_paquete decimal(8,0) check (valor_paquete > 0),
+	precio_traslado decimal(8,0) check (precio_traslado > 0),
+	calle varchar(40) not NULL,
+	numero_calle integer,
+	orientacion varchar(15),
+	numero_viaje integer,
+	Nombre_localidad varchar(30),
+	Nombre_Provincia varchar(30),
+	cuil_remitente integer,
+	foreign key (numero_viaje) references Viajes(numero_viaje),
+	foreign key (Nombre_localidad, Nombre_Provincia) references Localidad(Nombre_localidad, Nombre_Provincia),
+	foreign key (cuil_remitente) references Persona(cuil)
+)
