@@ -3,11 +3,10 @@
 select *
 from sucursal s
 where not exists (select *
-				 from producto p natural join (select num from sucursal where provincia= 'San Luis')A
-				 where not exists (select *
-								  from detalle d
-								  where d.cod = p.cod and s.num = d.num))
-								  
+				 from producto p natural join sucursal
+				 where s.provincia= 'San Luis' and not exists (select *
+															  from detalle d
+															  where d.cod = p.cod and s.num = d.num))
 								  
 -- 2) Provincias donde se venden más de un producto
 
