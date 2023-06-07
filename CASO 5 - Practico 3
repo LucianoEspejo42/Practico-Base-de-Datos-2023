@@ -1,0 +1,63 @@
+-- 1) Personas argentinas (dni, país y nombre) que se han aplicado más de una dosis
+
+alter table persona rename column nombre to nombre_persona
+
+select dni, pais, nombre_persona
+from persona natural join aplica
+where pais = 'argentina'
+group by dni, pais
+having count(*) > 1
+
+-- 2) Centros de salud (todos los datos) en los cuales se han aplicado la vacuna Sinopharm y/o Sputnik
+
+select *
+from centro natural join (select distinct nombre
+							from aplica
+							where nombrev = 'Sinopharm' or nombrev = 'Sputnik')A
+
+-- 3) Personas (dni) que se han aplicado la vacuna Sinopharm pero no la Sputnik 
+
+select dni
+from aplica 
+where nombrev = 'Sinopharm'
+
+except 
+
+select dni
+from aplica
+where nombrev != 'Sputnik'
+
+-- 4) Centros de salud (nombre y provincia) que han vacunado tanto a personas oriundas de San Juan como
+-- oriundas de Mendoza durante el 2020.
+
+select nombre, provincia
+from centro natural join (select dni 
+						 from persona p natural join aplica a
+						 where p.provincia = 'san juan' and cast(a.fecha as varchar) like '%2020%' 
+						 intersect
+						 select dni 
+						 from persona p natural join aplica a
+						 where p.provincia = 'mendoza' and cast(a.fecha as varchar) like '%2020%')A
+
+-- 5) Profesionales (todos los datos) que han vacunado únicamente a personas argentinas.
+
+select *
+from persona natural join (select dnip as dni
+						  from aplica
+						  except
+						  select dnip as dni
+						  from aplica
+						  where pais != 'argentina')A
+
+-- 6) Vacunas (todos los datos) que se han aplicado en todas las 
+-- provincias de Cuyo (San Juan, Mendoza y San Luis)
+
+alter table vacuna rename column nombre to nombrev
+
+select *
+from vacuna v
+where not exists (select *
+				 from aplica a
+				 where not exists (select *
+								  from centro c
+								  where c.nombre = a.nombre and (c.provincia = 'san juan' or c.provincia = 'san luis')))
