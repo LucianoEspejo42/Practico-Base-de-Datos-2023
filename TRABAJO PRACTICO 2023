@@ -83,3 +83,18 @@ create table Transporte (
 	foreign key (numero_viaje) references Viajes(numero_viaje),
 	primary key (cuilChofer, numero_viaje)
 )
+
+
+------------------------VALORES-----------------------------
+
+insert into provincia values 
+	('San Juan'),
+	('Mendoza'),
+	('San Luis'),
+	('Buenos Aires');
+	
+insert into localidad values
+	('Capital','San Juan'),
+	('La Matanza','Buenos Aires'),
+	('Chimbas','San Juan'),
+	('Villa Mercedes', 'San Luis'),
