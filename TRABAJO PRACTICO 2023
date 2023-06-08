@@ -55,3 +55,31 @@ create table Paquete_Envio (
 	foreign key (Nombre_localidad, Nombre_Provincia) references Localidad(Nombre_localidad, Nombre_Provincia),
 	foreign key (cuil_remitente) references Persona(cuil)
 )
+
+--------------------- Tabla de Relaciones ------------------------
+
+create table Recorrido (
+	numero_viaje integer,
+	Nombre_localidad varchar(30),
+	Nombre_Provincia varchar(30),
+	Orden_de_recorrido varchar(30),
+	foreign key (Nombre_localidad, Nombre_Provincia) references Localidad(Nombre_localidad, Nombre_Provincia),
+	foreign key (numero_viaje) references Viajes(numero_viaje),
+	primary key (numero_viaje,Nombre_localidad, Nombre_Provincia,Orden_de_recorrido)
+)
+
+create table Maneja (
+	cuilChofer integer,
+	dominio_camion varchar(30),
+	foreign key (cuilChofer) references Chofer(cuil),
+	foreign key (dominio_camion) references Camion(dominio),
+	primary key (cuilChofer, dominio_camion)
+)
+
+create table Transporte (
+	cuilChofer integer,
+	numero_viaje integer,
+	foreign key (cuilChofer) references Chofer(cuil),
+	foreign key (numero_viaje) references Viajes(numero_viaje),
+	primary key (cuilChofer, numero_viaje)
+)
