@@ -3,13 +3,14 @@ create table Provincia(
 	Nombre_Provincia varchar(30) NOT NULL unique primary key );
 
 create table Localidad(
-	Nombre_localidad varchar(30) NOT NULL unique,
-	Nombre_Provincia varchar(30) NOT NULL unique ,
-	foreign key (Nombre_Provincia) references Provincia(Nombre_Provincia),
-	primary key (Nombre_localidad, Nombre_Provincia));
+	Nombre_localidad varchar(30) NOT NULL,
+	Nombre_Provincia varchar(30) NOT NULL,
+	primary key (Nombre_localidad, Nombre_Provincia),
+	foreign key (Nombre_Provincia) references Provincia(Nombre_Provincia) on delete cascade
+	);
 	
 create table Persona (
-	cuil integer NOT NULL unique primary key,
+	cuil bigint NOT NULL unique primary key,
 	nombre varchar(40) not NUll,
 	apellido varchar(40) not NULL,
 	calle varchar(40) not NULL,
@@ -17,44 +18,45 @@ create table Persona (
 	orientacion varchar(15),
 	Nombre_localidad varchar(30),
 	Nombre_Provincia varchar(30), 
-	foreign key (Nombre_localidad, Nombre_Provincia) references Localidad(Nombre_localidad,Nombre_Provincia));
+	foreign key (Nombre_localidad, Nombre_Provincia) references Localidad(Nombre_localidad,Nombre_Provincia) on delete cascade);
 	
 create table Chofer (
-	cuil integer NOT NULL unique primary key,
-	sueldo decimal(8,0) check (sueldo > 0),
+	cuil bigint NOT NULL primary key,
+	sueldo decimal(8,2) check (sueldo > 0),
 	antiguedad integer,
-	foreign key (cuil) references Persona(cuil))
-	
+	foreign key (cuil) references Persona(cuil) on delete cascade);
+
+
 create table Camion (
 	dominio varchar(30) NOT NULL unique primary key,
-	kilometro decimal(8,0), 
+	kilometro decimal(8,2), 
 	marca varchar(15), 
 	modelo varchar(15),
 	compañia_seguro varchar(20),
-	valor decimal(8,0) check (valor > 0)
-	)
+	valor decimal(8,2) check (valor > 0)
+	);
 
 create table Viajes (
 	numero_viaje integer not NULL unique primary key,
-	kilometro_viaje decimal(8,0)
-)
+	kilometro_viaje decimal(8,2)
+);
 
 create table Paquete_Envio (
 	numero_envio integer not NULL unique primary key,
-	Dni_destinatario integer, 
-	valor_paquete decimal(8,0) check (valor_paquete > 0),
-	precio_traslado decimal(8,0) check (precio_traslado > 0),
+	Dni_destinatario bigint, 
+	valor_paquete decimal(8,2) check (valor_paquete > 0),
+	precio_traslado decimal(8,2) check (precio_traslado > 0),
 	calle varchar(40) not NULL,
 	numero_calle integer,
 	orientacion varchar(15),
 	numero_viaje integer,
 	Nombre_localidad varchar(30),
 	Nombre_Provincia varchar(30),
-	cuil_remitente integer,
-	foreign key (numero_viaje) references Viajes(numero_viaje),
-	foreign key (Nombre_localidad, Nombre_Provincia) references Localidad(Nombre_localidad, Nombre_Provincia),
-	foreign key (cuil_remitente) references Persona(cuil)
-)
+	cuil_remitente bigint,
+	foreign key (numero_viaje) references Viajes(numero_viaje) on delete cascade,
+	foreign key (Nombre_localidad, Nombre_Provincia) references Localidad(Nombre_localidad, Nombre_Provincia) on delete cascade,
+	foreign key (cuil_remitente) references Persona(cuil) on delete cascade
+);
 
 --------------------- Tabla de Relaciones ------------------------
 
@@ -63,27 +65,33 @@ create table Recorrido (
 	Nombre_localidad varchar(30),
 	Nombre_Provincia varchar(30),
 	Orden_de_recorrido varchar(30),
-	foreign key (Nombre_localidad, Nombre_Provincia) references Localidad(Nombre_localidad, Nombre_Provincia),
-	foreign key (numero_viaje) references Viajes(numero_viaje),
-	primary key (numero_viaje,Nombre_localidad, Nombre_Provincia,Orden_de_recorrido)
-)
+	primary key (numero_viaje,Nombre_localidad, Nombre_Provincia,Orden_de_recorrido),
+	foreign key (Nombre_localidad, Nombre_Provincia) references Localidad(Nombre_localidad, Nombre_Provincia) on delete cascade,
+	foreign key (numero_viaje) references Viajes(numero_viaje)on delete cascade
+	
+);
 
 create table Maneja (
-	cuilChofer integer,
+	cuilChofer bigint,
 	dominio_camion varchar(30),
 	foreign key (cuilChofer) references Chofer(cuil),
 	foreign key (dominio_camion) references Camion(dominio),
 	primary key (cuilChofer, dominio_camion)
-)
+);
 
 create table Transporte (
-	cuilChofer integer,
+	cuilChofer bigint,
 	numero_viaje integer,
-	foreign key (cuilChofer) references Chofer(cuil),
-	foreign key (numero_viaje) references Viajes(numero_viaje),
-	primary key (cuilChofer, numero_viaje)
-)
+	primary key (cuilChofer, numero_viaje),
+	foreign key (cuilChofer) references Chofer(cuil) on delete cascade,
+	foreign key (numero_viaje) references Viajes(numero_viaje) on delete cascade
+	
+);
 
+INSERT INTO VALUES 
+	(243),
+	(388),
+	(112);
 
 ------------------------VALORES-----------------------------
 
@@ -98,3 +106,37 @@ insert into localidad values
 	('La Matanza','Buenos Aires'),
 	('Chimbas','San Juan'),
 	('Villa Mercedes', 'San Luis'),
+	('San Rafael','Mendoza'),
+	('Quilmes','Buenos Aires'),
+	('Godoy Cruz','Mendoza'),
+	('Merlo','San Luis');
+	
+insert into persona values
+ 	(20123456780, 'Juan', 'Pérez', 'Avenida Rivadavia', 1234, 'Este','Chimbas','San Juan'),
+	(27987654321, 'María', 'González', 'Calle San Martín', 567, 'Norte','La Matanza','Buenos Aires'),
+	(23456789019, 'Luis', 'Rodríguez', 'Calle Mitre', 890, 'Oeste','Godoy Cruz','Mendoza'),
+	(24876543212, 'Ana', 'López', 'Avenida Belgrano', 4321, 'Sur','Merlo','San Luis'),
+	(22135790248, 'Martín', 'Fernández', 'Calle Sarmiento', 246, 'Este','San Rafael','Mendoza'),
+	(23246801353, 'Carolina', 'Torres', 'Calle 9 de Julio', 753, 'Norte','Villa Mercedes','San Luis'),
+	(20987654321, 'Pablo', 'Martínez', 'Avenida Libertador', 5678, 'Este','Capital','San Juan'),
+	(27345678904, 'Andrea', 'Silva', 'Calle Independencia', 987, 'Sur','Quilmes','Buenos Aires'),
+	(24678901235, 'Alejandro', 'Romero', 'Calle España', 321, 'Oeste','San Rafael','Mendoza'),
+	(23012345679, 'Laura', 'Ramírez', 'Avenida 25 de Mayo', 456, 'Norte','La Matanza','Buenos Aires');
+
+insert into Chofer values
+	(24678901235, 159091.12, 15),
+	(20123456780, 113099.45, 10),
+	(22135790248, 99123.44,5),
+	(23456789019, 199956.55,20);
+	
+INSERT INTO camion VALUES 
+	('ABC123', 50000, 'Volvo', 'FH16', 'Seguros del Norte', 150000.75),
+	('DEF456', 75000, 'Scania', 'R580', 'Seguros del Sur', 200000.50),
+	('GHI789', 100000, 'Mercedes-Benz', 'Actros', 'Seguros del Este', 180000.25);
+
+drop table localidad
+
+delete from localidad
+
+select *
+from camion
