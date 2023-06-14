@@ -38,7 +38,9 @@ create table Camion (
 
 create table Viajes (
 	numero_viaje integer not NULL unique primary key,
-	kilometro_viaje decimal(8,2)
+	kilometro_viaje decimal(8,2),
+	fecha_salida date,
+	fecha_llegada date
 );
 
 create table Paquete_Envio (
@@ -60,11 +62,12 @@ create table Paquete_Envio (
 
 --------------------- Tabla de Relaciones ------------------------
 
+
 create table Recorrido (
 	numero_viaje integer,
 	Nombre_localidad varchar(30),
 	Nombre_Provincia varchar(30),
-	Orden_de_recorrido varchar(30),
+	Orden_de_recorrido integer,
 	primary key (numero_viaje,Nombre_localidad, Nombre_Provincia,Orden_de_recorrido),
 	foreign key (Nombre_localidad, Nombre_Provincia) references Localidad(Nombre_localidad, Nombre_Provincia) on delete cascade,
 	foreign key (numero_viaje) references Viajes(numero_viaje)on delete cascade
@@ -88,10 +91,6 @@ create table Transporte (
 	
 );
 
-INSERT INTO VALUES 
-	(243),
-	(388),
-	(112);
 
 ------------------------VALORES-----------------------------
 
@@ -134,9 +133,48 @@ INSERT INTO camion VALUES
 	('DEF456', 75000, 'Scania', 'R580', 'Seguros del Sur', 200000.50),
 	('GHI789', 100000, 'Mercedes-Benz', 'Actros', 'Seguros del Este', 180000.25);
 
-drop table localidad
+INSERT INTO viajes VALUES
+	(341,1300,'2023-06-11','2023-06-13'),
+	(312,180,'2023-06-07','2023-06-08'),
+	(538,1100,'2023-06-10','2023-06-16');
 
-delete from localidad
+INSERT INTO Paquete_Envio VALUES
+	(999,24876543212,180,900,'Avenida Belgrano', 4321, 'Sur',312,'Merlo','San Luis',24678901235),
+	(123,27987654321,200,1000,'Calle San Martín', 567, 'Norte',341,'La Matanza','Buenos Aires',24876543212),
+	(321,23012345679,50,500,'Avenida 25 de Mayo', 456, 'Norte',538,'La Matanza','Buenos Aires',23456789019),
+	(987,23246801353,150,1100,'Calle 9 de Julio', 753, 'Norte',312,'Villa Mercedes','San Luis',20987654321);
 
-select *
-from camion
+INSERT INTO recorrido VALUES
+	(312,'Capital','San Juan',1),
+	(312,'Villa Mercedes','San Luis',2),
+	(312,'Merlo','San Luis',3),
+	(312,'San Rafael','Mendoza',4),
+	(312,'Merlo','San Luis',5),
+	(312,'Villa Mercedes','San Luis',6),
+	(312,'Capital','San Juan',7),
+	(341,'Merlo','San Luis',1),
+	(341,'La Matanza','Buenos Aires',2),
+	(341,'Merlo','San Luis',3),
+	(538,'Godoy Cruz','Mendoza',1),
+	(538,'La Matanza','Buenos Aires',2),
+	(538,'Godoy Cruz','Mendoza',3);
+	
+INSERT INTO Transporte VALUES	
+	(24678901235,312),
+	(23456789019,312),
+	(20123456780,341),
+	(22135790248,341),
+	(20123456780,538),
+	(22135790248,538);
+
+INSERT INTO maneja VALUES
+	(20123456780,'GHI789'),
+	(24678901235,'ABC123'),
+	(23456789019,'ABC123'),
+	(20123456780,'DEF456'),
+	(22135790248,'GHI789'),
+	(22135790248,'DEF456');
+	
+	
+
+------------------------VALORES-----------------------------
