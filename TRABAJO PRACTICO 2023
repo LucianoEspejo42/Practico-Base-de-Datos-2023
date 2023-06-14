@@ -177,4 +177,43 @@ INSERT INTO maneja VALUES
 	
 	
 
-------------------------VALORES-----------------------------
+------------------------CONSULTAS-----------------------------
+/1. Choferes (todos sus datos personales) ordenados por apellido./
+
+SELECT *
+from chofer natural join persona
+order by apellido
+
+/2. Camiones (todos los datos) que realizaron viajes a La Matanza (Buenos Aires)./
+
+SELECT *
+FROM camion natural join (
+					select dominio
+					from camion
+					
+					except
+	
+					select dominio
+					from camion natural join (select *
+											 from paquete_envio natural join(
+											 					select *
+												 				from viaje natural join(
+																			select *
+																			from transporte
+																)
+											 )
+
+)
+/3. Camiones (todos los datos) que no han parcipado en algún accidente./
+
+/*4. Nombre y apellido de los clientes (remitentes) que han solicitado envíos a Mendoza y San Luis (no
+necesariamente en el mismo viaje).*/
+	
+select nombre,apellido
+from persona natural join (select cuil_remitente as cuil
+						   from paquete_envio
+						   where nombre_provincia='Mendoza'
+						   intersect
+						   select cuil_remitente as cuil
+						   from paquete_envio
+						   where nombre_provincia='San Luis')as a
